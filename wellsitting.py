@@ -42,15 +42,15 @@ Relay5 = 18 #Polarity Relays
 # Create an ADS1115 ADC (16-bit) instance.
 adc = Adafruit_ADS1x15.ADS1115()
 # Max Voltage input for testing purposes
-GAIN = 1
+GAIN = 2/3
 ############Configuration######################
 # Defintions
 def toggleon():
         GPIO.setmode(GPIO.BCM)       # .BOARD Numbers GPIOs by physical location
         GPIO.setup(Relay1, GPIO.OUT)
-        print 'Circuit Live'
+        print('Circuit Live')
         GPIO.output(Relay1, GPIO.LOW)
-        time.sleep(0.1)
+        time.sleep(1)                # 1 herts before reading to allow signal to stabilize.
 def togglepolarity():
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(Relay1, GPIO.OUT)
@@ -58,16 +58,16 @@ def togglepolarity():
         GPIO.setup(Relay3, GPIO.OUT)
         GPIO.setup(Relay4, GPIO.OUT)
         GPIO.setup(Relay5, GPIO.OUT)
-        print ' Changing Polarity'
+        print('Changing Polarity')
         GPIO.output(Relay2, GPIO.LOW)
         GPIO.output(Relay3, GPIO.LOW)
         GPIO.output(Relay4, GPIO.LOW)
         GPIO.output(Relay5, GPIO.LOW)
-        print 'Current to Pin B'
+        print('Current to Pin B')
         GPIO.output(Relay1, GPIO.LOW)
-        time.sleep(0.1)
+        time.sleep(1)                # 1 herts before reading to allow signal to stabilize.
 def toggleoff():
-                print 'Circuit Dead'
+                print('Circuit Dead')
                 GPIO.cleanup()
                 time.sleep(0.5)
 
@@ -77,7 +77,12 @@ def toggleoff():
 #Currently no input validation. Future Oppertunity.
 alpha = input('Enter your alpha distance in meters: ')
 print('alpha is ',alpha,' meters')
-
+alphaA = 1.5 * alpha
+print('Place Pin A',alphaA,' meters to the left')
+alphaM = 0.5 * alpha
+print('Place Pin M',alphaM,' meters to the left')
+print('Place Pin N',alpha,' meters to the right')
+print('Place Pin B',alphaA,' meters to the right')
 # Now that we know the circuit is setup make sure user is prepared to make the circuit live
 #Wait till user enters the string ready
 while True:
@@ -123,18 +128,19 @@ VOLTN = values[1]
 CURRENT1 = values[2]
 CURRENT2 = values[3]
 #print raw 16-bit signed integer value
-print '16-bit signed integer'
+print('16-bit signed integer')
 print(VOLTM)
 print(VOLTN)
 print(CURRENT1)
 print(CURRENT2)
 #Convert to Votls
-VOLTM = VOLTM * 0.0001250038
-VOLTN = VOLTN * 0.0001250038
+VOLTM = VOLTM * 0.0001875
+# gain of 1 = 0.0001250038
+VOLTN = VOLTN * 0.0001875
 #Convert to Amps
-CURRENT1 = (CURRENT1 * 0.0001250038)
-CURRENT2 = (CURRENT2 * 0.0001250038)
-print 'Converted Values'
+CURRENT1 = (CURRENT1 * 0.0001875)
+CURRENT2 = (CURRENT2 * 0.0001875)
+print('Converted Values')
 print(VOLTM)
 print(VOLTN)
 print(CURRENT1)
@@ -171,18 +177,18 @@ VOLTN = values[1]
 CURRENT1 = values[2]
 CURRENT2 = values[3]
 #print raw 16-bit signed integer value
-print '16-bit signed integer'
+print('16-bit signed integer')
 print(VOLTM)
 print(VOLTN)
 print(CURRENT1)
 print(CURRENT2)
 #Convert to Votls
-VOLTM = VOLTM * 0.0001250038
-VOLTN = VOLTN * 0.0001250038
+VOLTM = VOLTM * 0.0001875
+VOLTN = VOLTN * 0.0001875
 #Convert to Amps
-CURRENT1 = (CURRENT1 * 0.0001250038 * .185)
-CURRENT2 = (CURRENT2 * 0.0001250038 * .185)
-print 'Converted Values'
+CURRENT1 = (CURRENT1 * 0.0001875 * .185)
+CURRENT2 = (CURRENT2 * 0.0001875 * .185)
+print('Converted Values')
 print(VOLTM)
 print(VOLTN)
 print(CURRENT1)
